@@ -4,11 +4,11 @@ import React from 'react'
 export default function Profile({imgUri, genero, nome, email, telefone}) {
 
     const pessoa = {
-        imgUri: "../assets/foto.jpg",
-        genero: " Feminino",
-        nome: " Milena C. Hosana de Sousa.",    
-        email: " milenahosana99@gmail.com",
-        telefone: " (61)98664-1718"
+        imgUri: '../',
+        genero: " Masculino",
+        nome: " Alisson S Pereira",    
+        email: " alisson@gmail.com",
+        telefone: " (61) 9999-8888"
     }
 
     return (
@@ -17,12 +17,12 @@ export default function Profile({imgUri, genero, nome, email, telefone}) {
             
 
             <View>
-                <Text style={styles.texto}>Profile da Milena!                                                                     </Text>
+                <Text style={styles.texto}>Profile do Alisson!                                                                     </Text>
             </View>
             
             <Image
                 style={styles.imagem}
-                source={require("../Iesb_programas_dispositivos_moveis/assets/foto.jpg")}>
+                source={require("../assets/eu.jpg")}>
             </Image>
 
             <View style={styles.labelContainer}>
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
 
     container: {
         flex: 1,
-        backgroundColor: "purple",
+        backgroundColor: "#15568D",
         justifyContent: "flex-start",
         alignItems: "center",
         margin: 15,
@@ -66,14 +66,14 @@ const styles = StyleSheet.create({
         // alignItems: 'center',
         // justifyContent: 'center',
         width: '98%',
-        padding: 10,
+        padding: 10
     },
 
     texto: {
-        alignItems: "center",
+        alignItems: 'center',
         fontWeight: "bold",
         fontSize: 20,
-        color: "white",
+        color: "white"
     },
 
     textoLabel: {
@@ -85,9 +85,9 @@ const styles = StyleSheet.create({
     imagem: {
         justifyContent: 'center',
         width: 300,
-        height: 370,
+        height: 300,
         borderWidth: 2,
-        borderColor: 'white',
+        borderColor: 'purple',
         borderRadius: 500,
         padding: 20,
         marginTop: 20,
