@@ -1,96 +1,134 @@
-import { Image, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react';
+import { StyleSheet,StatusBar,Text, View, TouchableOpacity ,SafeAreaView, Image, Alert } from 'react-native';
 
-export default function Profile({imgUri, genero, nome, email, telefone}) {
+let timer = null;
+let segundos = 0;
+let minutos = 0;
+let horas = 0;
 
-    const pessoa = {
-        imgUri: "../assets/foto.jpg",
-        genero: " Feminino",
-        nome: " Milena C. Hosana de Sousa.",    
-        email: " milenahosana99@gmail.com",
-        telefone: " (61)98664-1718"
+export default function AppCronometro() {
+  // Para reiniciar o timer.
+  function iniciar(){
+    if(timer !== null){
+      clearInterval(timer);
+      timer = null;
+      setBotao('INICIAR')
+    }else{
+      // Para iniciar o timer
+      setBotao('PARAR')
+      timer = setInterval(() => {
+        segundos++; // Contando segundos
+
+        // Minutos
+        if(segundos == 60){
+          segundos = 0;
+          minutos++;
+        }
+
+        // Horas
+        if(minutos == 60){
+          minutos = 0;
+          horas++;
+        }
+
+        let formatado = (horas < 10 ?'0'+ horas : horas)+ ':' +(minutos < 10 ?'0'+ minutos : minutos)
+        + ':' +(segundos < 10 ?'0'+ segundos : segundos);
+
+        setNumero(formatado);
+      },1000);
+      setBotao('PARAR')
     }
+  }
 
+  function zerar(){
+    if(timer !== null){
+        clearInterval(timer);
+        timer = null;
+    }
+    setNumero(0)
+    setMedido(numero);
+    segundos = 0;
+    minutos = 0;
+    horas = 0;
+    setBotao('INICIAR');
+  }
+
+  const [numero, setNumero] = useState('');
+  const [botao, setBotao] = useState('INICIAR');
+  const [medido, setMedido] = useState('');
     return (
+    <SafeAreaView style={styles.container}>
+      <StatusBar style="auto" />
 
-        <View style={styles.container}>
-            
+      <Image 
+      source={require('../Iesb_programas_dispositivos_moveis/assets/crônometro.png')}
+      style={styles.imagem}
+      />
 
-            <View>
-                <Text style={styles.texto}>Profile da Milena!                                                                     </Text>
-            </View>
-            
-            <Image
-                style={styles.imagem}
-                source={require("../Iesb_programas_dispositivos_moveis/assets/foto.jpg")}>
-            </Image>
+      <Text style={styles.texto}>{numero == 0?'00:00:00':numero}</Text>
 
-            <View style={styles.labelContainer}>
-                <Text style={[styles.textoLabel, styles.texto]}>Gênero:</Text>
-                <Text style={styles.texto}>{pessoa.genero}</Text>
-            </View>
+      <View style={styles.botaoArea}>
 
-            <View style={styles.labelContainer}>
-                <Text style={[styles.textoLabel, styles.texto]}>Nome:</Text>
-                <Text style={styles.texto}>{pessoa.nome}</Text>
-            </View>
+        <TouchableOpacity style={styles.botao} onPress={iniciar}>
+          <Text style={styles.textoBotao}>{botao}</Text>
 
-            <View style={styles.labelContainer}>
-                <Text style={[styles.textoLabel, styles.texto]}>Telefone:</Text>
-                <Text style={styles.texto}>{pessoa.telefone}</Text>
-            </View>
+        </TouchableOpacity>
 
-            <View style={styles.labelContainer}>
-                <Text style={[styles.textoLabel, styles.texto]}>E-mail:</Text>
-                <Text style={styles.texto}>{pessoa.email}</Text>
-            </View>
-        </View>
+        <TouchableOpacity style={styles.botao} onPress={zerar}>
+          <Text style={styles.textoBotao}>ZERAR</Text>
 
-    )
+        </TouchableOpacity>
+
+      </View>
+      <View style={styles.areaTempoMedido}>
+        <Text style={styles.tempoMedido}>{medido}</Text>
+      </View>
+    </SafeAreaView>
+  );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: 'purpler',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  texto:{
+    fontSize:60,
+    color:'#FFF',
+    marginTop:-220,
+    fontWeight:'bold',
 
-    container: {
-        flex: 1,
-        backgroundColor: "purple",
-        justifyContent: "flex-start",
-        alignItems: "center",
-        margin: 15,
-        marginTop: "10%"
-    },
+  },
+  botaoArea:{
+    flexDirection:'row',
+    marginTop: 200,
+    margin: 20,
+    
+    
+  }, 
+  botao:{
+    backgroundColor:"#FFF",
+    margin:20,
+    borderRadius:15,
+    padding:20,
+    fontWeight:'bold',
+    fontSize:50,
+  },
+  textoBotao:{
+    fontSize:25,
+    fontWeight:"bold",
+  },
+  areaTempoMedido:{
+    marginTop:8
+  },
+  tempoMedido:{
+    fontSize:30,
+    fontStyle:'italic',
+    color:"#FFF",
+    fontWeight:"bold",
+  }
 
-    labelContainer: {
-       
-        flexDirection: 'row',
-        // alignItems: 'center',
-        // justifyContent: 'center',
-        width: '98%',
-        padding: 10,
-    },
-
-    texto: {
-        alignItems: "center",
-        fontWeight: "bold",
-        fontSize: 20,
-        color: "white",
-    },
-
-    textoLabel: {
-        fontSize: 30,
-        fontWeight: "bold"
-
-    },
-
-    imagem: {
-        justifyContent: 'center',
-        width: 300,
-        height: 370,
-        borderWidth: 2,
-        borderColor: 'white',
-        borderRadius: 500,
-        padding: 20,
-        marginTop: 20,
-        marginLeft: 20
-    }
-})
+  
+});
